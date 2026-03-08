@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: fastapi-hello
-          image: fastapi-hello:latest
+          image: fastapi-hello:v2
           imagePullPolicy: Never
           ports:
             - containerPort: 8000
