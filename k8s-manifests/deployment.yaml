@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-hello
+  namespace: default
+  labels:
+    app: fastapi-hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-hello
+  template:
+    metadata:
+      labels:
+        app: fastapi-hello
+    spec:
+      containers:
+        - name: fastapi-hello
+          image: fastapi-hello:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
